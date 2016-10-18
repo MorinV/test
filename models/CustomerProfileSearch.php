@@ -73,10 +73,9 @@ class CustomerProfileSearch extends CustomerProfile
 		$this->addCondition($query, 'secondname', true);
 		$this->addCondition($query, 'status');
 		
-		$query->andWhere('firstname LIKE "%' . $this->fullName . '%" ' .
-			'OR lastname LIKE "%' . $this->fullName . '%"' .
-			'OR secondname LIKE "%' . $this->fullName . '%"'
-		);
+		$words=explode(" ", $this->fullName);
+		foreach ($words as $word)
+			$query->andWhere('CONCAT(`lastname`, " ",`firstname`," ",`secondname`) LIKE "%' . $word. '%" ');
 		
 		$query->joinWith(['orders']);
         return $dataProvider;
