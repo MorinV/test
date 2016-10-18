@@ -17,14 +17,14 @@ class CustomerProfileSearch extends CustomerProfile
      */
 	public $fullName; 
 	public $lastOrderText;
-	public $sumOrders;
+	public $minOrders;
 	
 	 
     public function rules()
     {
         return [
             [['id', 'status'], 'integer'],
-            [['firstname', 'secondname', 'lastname', 'date_registred', 'sumOrders', 'fullName', 'lastOrderText'], 'safe'],
+            [['firstname', 'secondname', 'lastname', 'date_registred', 'minOrders', 'fullName', 'lastOrderText'], 'safe'],
         ];
     }
 
@@ -53,7 +53,7 @@ class CustomerProfileSearch extends CustomerProfile
 		
 		$dataProvider->setSort([
         'attributes' => [
-			'lastOrderText' => [
+			'lastOrderId' => [
 				'asc' => ['order.id' => SORT_ASC],
                 'desc' => ['order.id' => SORT_DESC],
                 'label' => 'Последний заказ',

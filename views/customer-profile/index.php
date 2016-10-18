@@ -16,10 +16,10 @@ $this->params['breadcrumbs'][] = $this->title;
 
 	   <?= GridView::widget([ 
        'dataProvider' => $dataProvider, 
-   	   'layout'=>"{items}",
+   	   'layout'=>"{sorter}\n{items}",
        'columns' => [ 
 		   'fullName',
-		   'lastOrderText',
+		   'lastOrderText:html',
 		   'countOrders',
 		   'sumOrders',
            'statusName', 

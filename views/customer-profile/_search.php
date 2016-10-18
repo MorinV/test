@@ -25,7 +25,7 @@ use yii\widgets\ActiveForm;
     <?php // echo $form->field($model, 'date_registred') ?>
 
     <div class="form-group">
-        <?= Html::submitButton('Search', ['class' => 'btn btn-primary hidden']) ?>
+        <?= Html::submitButton('Поиск', ['class' => 'btn btn-primary hidden']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
