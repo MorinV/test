@@ -15,11 +15,16 @@ class CustomerProfileSearch extends CustomerProfile
     /**
      * @inheritdoc
      */
+	public $fullName; 
+	public $lastOrderText;
+	public $sumOrders;
+	
+	 
     public function rules()
     {
         return [
             [['id', 'status'], 'integer'],
-            [['firstname', 'secondname', 'lastname', 'date_registred', 'fullName'], 'safe'],
+            [['firstname', 'secondname', 'lastname', 'date_registred', 'sumOrders', 'fullName', 'lastOrderText'], 'safe'],
         ];
     }
 
@@ -48,34 +53,58 @@ class CustomerProfileSearch extends CustomerProfile
 		
 		$dataProvider->setSort([
         'attributes' => [
-            'id',
-            'fullName' => [
-                'asc' => ['firstname' => SORT_ASC, 'lastname' => SORT_ASC],
-                'desc' => ['firstname' => SORT_DESC, 'lastname' => SORT_DESC],
-                'label' => 'Full Name',
-                'default' => SORT_ASC
-            ],
-            'country_id'
+			'lastOrderText' => [
+				'asc' => ['order.id' => SORT_ASC],
+                'desc' => ['order.id' => SORT_DESC],
+                'label' => 'Последний заказ',
+			]
+			
         ]
     ]);
 
 		if (!($this->load($params) && $this->validate())) {
+			$query->joinWith(['orders']);
 			return $dataProvider;
 		}
 		
-
-        // grid filtering conditions
-        $query->andFilterWhere([
-            'id' => $this->id,
-            'status' => $this->status,
-            'date_registred' => $this->date_registred,
-        ]);
-
-        $query->andFilterWhere(['like', 'firstname', $this->firstname])
-            ->andFilterWhere(['like', 'secondname', $this->secondname])
-            ->andFilterWhere(['like', 'lastname', $this->lastname]);
-
-
+		$this->addCondition($query, 'id');
+		$this->addCondition($query, 'firstname', true);
+		$this->addCondition($query, 'lastname', true);
+		$this->addCondition($query, 'secondname', true);
+		$this->addCondition($query, 'status');
+		
+		$query->andWhere('firstname LIKE "%' . $this->fullName . '%" ' .
+			'OR lastname LIKE "%' . $this->fullName . '%"' .
+			'OR secondname LIKE "%' . $this->fullName . '%"'
+		);
+		
+		$query->joinWith(['orders']);
         return $dataProvider;
     }
+	
+	protected function addCondition($query, $attribute, $partialMatch = false)
+	{
+		if (($pos = strrpos($attribute, '.')) !== false) {
+			$modelAttribute = substr($attribute, $pos + 1);
+		} else {
+			$modelAttribute = $attribute;
+		}
+	 
+		$value = $this->$modelAttribute;
+		if (trim($value) === '') {
+			return;
+		}
+	 
+		/*
+		 * Для корректной работы фильтра со связью со
+		 * свой же моделью делаем:
+		 */
+		$attribute = "customer_profile.$attribute";
+	 
+		if ($partialMatch) {
+			$query->andWhere(['like', $attribute, $value]);
+		} else {
+			$query->andWhere([$attribute => $value]);
+		}
+	}
 }

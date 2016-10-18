@@ -1,7 +1,9 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\ArrayHelper;
 use yii\widgets\ActiveForm;
+
 
 /* @var $this yii\web\View */
 /* @var $model app\models\CustomerProfileSearch */
@@ -15,21 +17,15 @@ use yii\widgets\ActiveForm;
         'method' => 'get',
     ]); ?>
 
-    <?= $form->field($model, 'id') ?>
-
-    <?= $form->field($model, 'firstname') ?>
-
-    <?= $form->field($model, 'secondname') ?>
-
-    <?= $form->field($model, 'lastname') ?>
-
-    <?= $form->field($model, 'status') ?>
+    <?= $form->field($model, 'status')->radioList(ArrayHelper::map($nameProfiles, 'id', 'name'))->label(false); ?>
+	
+	
+	<?= $form->field($model, 'fullName') ?>
 
     <?php // echo $form->field($model, 'date_registred') ?>
 
     <div class="form-group">
-        <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
-        <?= Html::resetButton('Reset', ['class' => 'btn btn-default']) ?>
+        <?= Html::submitButton('Search', ['class' => 'btn btn-primary hidden']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

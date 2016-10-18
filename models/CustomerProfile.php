@@ -30,6 +30,7 @@ class CustomerProfile extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
+
     public function rules()
     {
         return [
@@ -51,7 +52,7 @@ class CustomerProfile extends \yii\db\ActiveRecord
             'firstname' => 'Firstname',
             'secondname' => 'Secondname',
             'lastname' => 'Lastname',
-            'status' => 'Status',
+            'status' => 'Статус клиента',
             'date_registred' => 'Зарегистрирован',
 			'fullName' => 'ФИО клиента',
 			'countOrders' => 'Всего заказов',

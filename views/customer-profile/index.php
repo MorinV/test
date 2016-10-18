@@ -12,45 +12,11 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="customer-profile-index">
 
-    <?php  echo $this->render('_search', ['model' => $searchModel]); ?>
-	<?php /*
-	<table class="table">
-	<tr><td>ФИО Клиента</td><td>Последний заказ</td><td>Всего заказов</td><td>Сумма заказов</td><td>Статус клиента</td><td>Зарегестрирован</td></tr>
-	<?php foreach($models as $model) { ?>
-	<tr>
-		<td>
-			<?= Html::encode($model->lastname) ?>
-			<?= Html::encode($model->firstname) ?>
-			<?= Html::encode($model->secondname) ?>
-		</td>
-		<td>
-			<?= Html::encode($model->lastOrder->textNumber) ?>
-			<br>
-			<?= Html::encode($model->lastOrder->date) ?>
-			<br>
-			<?= Html::encode($model->lastOrder->textTotal) ?>
-		</td>
-		<td>
-			<?= Html::encode($model->countOrders) ?>
-		</td>
-		<td>
-			<?= Html::encode($model->sumOrders) ?>
-		</td>
-		<td>
-			<?= Html::encode($model->status0->name) ?>
-		</td>
-		<td>
-			<?= Html::encode($model->date_registred) ?>
-		</td>
-	</tr>
-	<?php } ?>
-	</table>
-*/ ?>
+    <?php  echo $this->render('_search', ['model' => $searchModel, 'nameProfiles' => $nameProfiles,]); ?>
 
 	   <?= GridView::widget([ 
        'dataProvider' => $dataProvider, 
-       'filterModel' => $searchModel, 
-	   'layout'=>"{items}",
+   	   'layout'=>"{items}",
        'columns' => [ 
 		   'fullName',
 		   'lastOrderText',

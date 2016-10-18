@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use Yii;
 use app\models\CustomerProfile;
+use app\models\CustomerStatus;
 use app\models\CustomerProfileSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -37,12 +38,14 @@ class CustomerProfileController extends Controller
     {
         $searchModel = new CustomerProfileSearch();
 		$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+		$nameProfiles = CustomerStatus::find()->all();
         $models = $this->findAllModels();
 
         return $this->render('index', [
             'searchModel' => $searchModel,
 			'dataProvider' => $dataProvider ,
             'models' => $models,
+			'nameProfiles' => $nameProfiles,
         ]);
     }
 
